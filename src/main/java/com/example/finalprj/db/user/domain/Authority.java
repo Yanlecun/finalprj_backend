@@ -10,13 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "sp_authority")
+@Table(name = "authority")
 @IdClass(Authority.class) // @Id를 여러 개 가질 경우
 public class Authority implements GrantedAuthority {
 
@@ -34,5 +35,18 @@ public class Authority implements GrantedAuthority {
 
     @Id
     private String authority;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Authority)) return false;
+        Authority authority1 = (Authority) o;
+        return Objects.equals(authority, authority1.authority);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(authority);
+    }
 
 }
