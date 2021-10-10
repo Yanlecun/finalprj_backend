@@ -14,7 +14,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item" th:classappend="${site} == admin ? active">
         <a class="nav-link" th:href="@{/admin}">
             <i class="fas fa-fw fa-home"></i>
             <span>메인화면</span></a>
@@ -29,14 +29,14 @@
     </div>
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" th:href="@{/admin/faqs}">
+    <li class="nav-item" th:classappend="${site} == faqs ? active">
+        <a class="nav-link" th:href="@{/admin/faqs} ">
             <i class="fas fa-fw fa-question"></i>
             <span>홈페이지 FAQ</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item">
+    <li class="nav-item" th:classappend="${site} == accounts ? active">
         <a class="nav-link" th:href="@{/admin/accounts} ">
             <i class="fas fa-fw fa-user"></i>
             <span>관리자 계정</span></a>
