@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -29,6 +30,7 @@ public class User implements UserDetails {
     private boolean enabled;
 
     @OneToOne
+    @Nullable
     private Playground playground;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

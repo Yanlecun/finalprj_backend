@@ -38,4 +38,8 @@ public class UserService {
     public Optional<Playground> findPlaygroundByPgName(String name) {
         return playgroundRepository.findPlaygroundByPgName(name);
     }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }
