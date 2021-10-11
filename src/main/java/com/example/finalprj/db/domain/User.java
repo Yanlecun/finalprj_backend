@@ -1,6 +1,5 @@
-package com.example.finalprj.db.user.domain;
+package com.example.finalprj.db.domain;
 
-import com.example.finalprj.db.playground.domain.Playground;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +16,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "user")
-public class User implements UserDetails {
+public class User  extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

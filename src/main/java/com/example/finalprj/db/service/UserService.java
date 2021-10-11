@@ -1,10 +1,10 @@
-package com.example.finalprj.db.user.service;
+package com.example.finalprj.db.service;
 
-import com.example.finalprj.db.playground.domain.Playground;
-import com.example.finalprj.db.playground.repository.PlaygroundRepository;
-import com.example.finalprj.db.user.domain.Authority;
-import com.example.finalprj.db.user.domain.User;
-import com.example.finalprj.db.user.repository.UserRepository;
+import com.example.finalprj.db.domain.Playground;
+import com.example.finalprj.db.repository.PlaygroundRepository;
+import com.example.finalprj.db.domain.Authority;
+import com.example.finalprj.db.domain.User;
+import com.example.finalprj.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

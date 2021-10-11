@@ -1,7 +1,7 @@
-package com.example.finalprj.db.user.service;
+package com.example.finalprj.db.service;
 
 
-import com.example.finalprj.db.user.repository.UserRepository;
+import com.example.finalprj.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

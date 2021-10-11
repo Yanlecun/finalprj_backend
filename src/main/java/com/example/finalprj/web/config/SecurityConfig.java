@@ -1,6 +1,6 @@
 package com.example.finalprj.web.config;
 
-import com.example.finalprj.db.user.service.UserSecurityService;
+import com.example.finalprj.db.service.UserSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .antMatchers("/login").permitAll()
                             .antMatchers("/error").permitAll()
                             .antMatchers("/signup").permitAll() // teacher, stu 회원가입 permit
-                            .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                            .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN") //permitAll()
                             .antMatchers("/manager/**").hasAnyAuthority("ROLE_MANAGER")
                             .anyRequest().authenticated()
                     ;

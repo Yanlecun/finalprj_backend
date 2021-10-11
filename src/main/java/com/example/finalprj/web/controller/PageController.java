@@ -1,10 +1,11 @@
 package com.example.finalprj.web.controller;
 
-import com.example.finalprj.db.playground.domain.Playground;
-import com.example.finalprj.db.playground.service.PlaygroundService;
-import com.example.finalprj.db.user.domain.Authority;
-import com.example.finalprj.db.user.domain.User;
-import com.example.finalprj.db.user.service.UserService;
+
+import com.example.finalprj.db.domain.Playground;
+import com.example.finalprj.db.service.PlaygroundService;
+import com.example.finalprj.db.domain.Authority;
+import com.example.finalprj.db.domain.User;
+import com.example.finalprj.db.service.UserService;
 import com.example.finalprj.web.controller.vo.UserSignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

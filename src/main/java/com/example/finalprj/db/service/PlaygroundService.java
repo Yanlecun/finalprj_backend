@@ -1,6 +1,7 @@
-package com.example.finalprj.db.playground.service;
+package com.example.finalprj.db.service;
 
-import com.example.finalprj.db.playground.domain.Playground;
+
+import com.example.finalprj.db.domain.Playground;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;

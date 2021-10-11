@@ -1,4 +1,4 @@
-package com.example.finalprj.db.user.domain;
+package com.example.finalprj.db.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "authority")
 @IdClass(Authority.class) // @Id를 여러 개 가질 경우
-public class Authority implements GrantedAuthority {
+public class Authority extends BaseEntity implements GrantedAuthority {
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_MANAGER = "ROLE_MANAGER";

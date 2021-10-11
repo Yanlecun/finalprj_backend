@@ -1,6 +1,6 @@
-package com.example.finalprj.db.playground.repository;
+package com.example.finalprj.db.repository;
 
-import com.example.finalprj.db.playground.domain.Playground;
+import com.example.finalprj.db.domain.Playground;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,6 +1,5 @@
-package com.example.finalprj.db.playground.domain;
+package com.example.finalprj.db.domain;
 
-import com.example.finalprj.db.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Playground {
+public class Playground extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;

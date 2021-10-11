@@ -1,6 +1,6 @@
 package com.example.finalprj.web.playground.controller;
 
-import com.example.finalprj.db.playground.service.PlaygroundService;
+import com.example.finalprj.db.service.PlaygroundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
