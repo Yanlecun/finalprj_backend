@@ -4,13 +4,16 @@ import com.example.finalprj.db.service.UserSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -58,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .antMatchers("/login").permitAll()
                             .antMatchers("/error").permitAll()
                             .antMatchers("/signup").permitAll() // teacher, stu 회원가입 permit
+                            .antMatchers("/swagger-ui/").permitAll()
                             .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN") //permitAll()
                             .antMatchers("/manager/**").hasAnyAuthority("ROLE_MANAGER")
                             .anyRequest().authenticated()

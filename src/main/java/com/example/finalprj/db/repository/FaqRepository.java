@@ -17,6 +17,8 @@ public interface FaqRepository extends JpaRepository<Faq, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "update faq f set f.id = @COUNT\\:=(@COUNT+1);", nativeQuery = true)
-    void update();
+    @Query(value = "update faq f, (select @COUNT\\:=0) x \n" +
+            "set f.id = (@COUNT\\:=@COUNT+1) \n" +
+            "where f.id like '%';", nativeQuery = true)
+    void indexing();
 }

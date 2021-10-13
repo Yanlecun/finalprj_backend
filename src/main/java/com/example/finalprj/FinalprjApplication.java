@@ -14,6 +14,7 @@ public class FinalprjApplication extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(FinalprjApplication.class);
     }
+
     public static void main(String[] args) {
         SpringApplication.run(FinalprjApplication.class, args);
     }

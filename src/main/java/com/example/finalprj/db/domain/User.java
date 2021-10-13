@@ -16,7 +16,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "user")
-public class User  extends BaseEntity implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

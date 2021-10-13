@@ -8,6 +8,13 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+apply plugin:'war'
+bootWar {
+    archiveBaseName='-'
+    archiveFileName = 'demo.war'
+    archiveVersion = "0.0.0"
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -35,6 +42,11 @@ dependencies {
     implementation group: 'javax.json', name: 'javax.json-api', version: '1.0'
     // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    // https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter
+    implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+
 }
 
 test {

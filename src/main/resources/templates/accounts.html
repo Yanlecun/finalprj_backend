@@ -3,7 +3,7 @@
 
 <head>
 
-    <th:block th:replace="/fragments/commonHead :: header"></th:block>
+    <th:block th:replace="fragments/commonHead :: header"></th:block>
 
     <style>
 
@@ -15,7 +15,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <div th:replace="/fragments/sidebar :: sidebar"></div>
+        <div th:replace="fragments/sidebar :: sidebar"></div>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -23,7 +23,7 @@
             <!-- Main Content -->
             <div id="content">
 
-                <div th:replace="/fragments/topbar :: topbar"></div>
+                <div th:replace="fragments/topbar :: topbar"></div>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -69,7 +69,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer th:replace="/fragments/footer"></footer>
+            <footer th:replace="fragments/footer"></footer>
             <!-- End of Footer -->
 
         </div>
@@ -107,7 +107,7 @@
         </div>
     </div>
 
-    <script th:replace="/fragments/core-js :: core-js"></script>
+    <script th:replace="fragments/core-js :: core-js"></script>
 
 </body>
 

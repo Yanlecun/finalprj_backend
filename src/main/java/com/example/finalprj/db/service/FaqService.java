@@ -5,7 +5,6 @@ import com.example.finalprj.db.repository.FaqRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +15,7 @@ public class FaqService {
 
     public void save(Faq faq) {
         faqRepository.save(faq);
+        faqRepository.indexing();
     }
 
     public List<Faq> findAll() {
@@ -27,7 +27,7 @@ public class FaqService {
 
     public void deleteById(Long id) {
         faqRepository.deleteById(id);
-        //faqRepository.update();
+        faqRepository.indexing();
     }
 
     public Optional<Faq> findById(Long id) {
@@ -36,6 +36,6 @@ public class FaqService {
 
     public void updateFaq(Faq faq) {
         faqRepository.updateById(faq.getId(), faq.getSubject(), faq.getContent());
-        //faqRepository.update();
+        faqRepository.indexing();
     }
 }

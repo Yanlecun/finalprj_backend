@@ -18,6 +18,6 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException(email+" 사용자가 존재하지 않습니다"));
+        return userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException(email+" 사용자가 존재하지 않습니다"));
     }
 }
