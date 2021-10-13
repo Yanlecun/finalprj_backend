@@ -2,6 +2,10 @@ package com.example.finalprj.db.service;
 
 
 import com.example.finalprj.db.domain.Playground;
+import com.example.finalprj.db.domain.User;
+import com.example.finalprj.db.repository.PlaygroundRepository;
+import com.example.finalprj.db.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -15,10 +19,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 @Service
+@RequiredArgsConstructor
 public class PlaygroundService {
+
+    final private PlaygroundRepository playgroundRepository;
+    final private UserRepository userRepository;
 
     String driverName = "com.mysql.cj.jdbc.Driver"; //org.gjt.mm.mysql.Driver
     String url = "jdbc:mysql://3.37.91.0:3306/first"; //:3306
@@ -170,5 +179,9 @@ public class PlaygroundService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Playground> findAll() {
+        return playgroundRepository.findAll();
     }
 }

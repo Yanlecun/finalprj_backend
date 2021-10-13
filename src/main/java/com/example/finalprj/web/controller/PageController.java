@@ -1,10 +1,11 @@
 package com.example.finalprj.web.controller;
 
 
-import com.example.finalprj.db.domain.Playground;
-import com.example.finalprj.db.service.PlaygroundService;
 import com.example.finalprj.db.domain.Authority;
+import com.example.finalprj.db.domain.Playground;
 import com.example.finalprj.db.domain.User;
+import com.example.finalprj.db.repository.PlaygroundRepository;
+import com.example.finalprj.db.service.PlaygroundService;
 import com.example.finalprj.db.service.UserService;
 import com.example.finalprj.web.controller.vo.UserSignUpForm;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class PageController {
     private final PasswordEncoder passwordEncoder;
     private final PlaygroundService playgroundService;
     private final UserService userService;
+    private final PlaygroundRepository playgroundRepository;
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
@@ -39,11 +43,11 @@ public class PageController {
     }
 
     @GetMapping("/login")
-    public String login(@AuthenticationPrincipal User user, @RequestParam(value="error", defaultValue = "false") Boolean error, HttpServletRequest request, Model model) {
-        if(user!=null && user.isEnabled()){
-            if(user.getAuthorities().contains(Authority.ADMIN_AUTHORITY)){
+    public String login(@AuthenticationPrincipal User user, @RequestParam(value = "error", defaultValue = "false") Boolean error, HttpServletRequest request, Model model) {
+        if (user != null && user.isEnabled()) {
+            if (user.getAuthorities().contains(Authority.ADMIN_AUTHORITY)) {
                 return "redirect:/admin";
-            }else if(user.getAuthorities().contains(Authority.MANAGER_AUTHORITY)){
+            } else if (user.getAuthorities().contains(Authority.MANAGER_AUTHORITY)) {
                 return "redirect:/manager";
             }
         }
@@ -67,9 +71,16 @@ public class PageController {
                 .password(passwordEncoder.encode(form.getPassword()))
                 .enabled(true)
                 .build();
-        userService.findPlaygroundByPgName(form.getPgName()).ifPresent(pg -> user.setPlayground(pg));
+        userService.findPlaygroundByPgName(form.getPgName()).ifPresent(pg ->{
+            user.setPlayground(pg);
+        });
 
         User saved = userService.save(user);
+
+        Playground playground = playgroundRepository.findById(saved.getPlayground().getId()).get();
+        playground.setUser(saved);
+        playgroundRepository.save(playground);
+
         userService.addAuthority(saved.getId(), Authority.ROLE_MANAGER);
         model.addAttribute("register", true);
         return "loginForm";

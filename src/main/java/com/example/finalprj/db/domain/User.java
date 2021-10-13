@@ -1,9 +1,6 @@
 package com.example.finalprj.db.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,11 +26,11 @@ public class User extends BaseEntity implements UserDetails {
     private boolean enabled;
 
     @OneToOne
-    @Nullable
+    @ToString.Exclude
     private Playground playground;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(foreignKey = @ForeignKey(name = "userId"))
+    @JoinColumn(foreignKey = @ForeignKey(name = "userId"))  // id같은데
     private Set<Authority> authorities;
 
     @Override

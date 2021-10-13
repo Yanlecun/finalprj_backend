@@ -1,8 +1,11 @@
 package com.example.finalprj.web.user.controller;
 
 import com.example.finalprj.db.domain.Faq;
+import com.example.finalprj.db.domain.Playground;
 import com.example.finalprj.db.domain.User;
+import com.example.finalprj.db.repository.PlaygroundRepository;
 import com.example.finalprj.db.service.FaqService;
+import com.example.finalprj.db.service.PlaygroundService;
 import com.example.finalprj.db.service.UserService;
 import com.example.finalprj.web.user.controller.vo.FaqForm;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +22,13 @@ import java.util.List;
 public class AdminController {
     private final FaqService faqService;
     private final UserService userService;
-
+    private final PlaygroundService playgroundService;
+    private final PlaygroundRepository playgroundRepository;
 
     @GetMapping("")
     public String admin(Model model) {
+        List<Playground> playgrounds = playgroundService.findAll();
+        model.addAttribute("playgrounds", playgrounds);
         model.addAttribute("site", "admin");
         return "admin";
     }
@@ -55,7 +61,7 @@ public class AdminController {
         return "redirect:/admin/faqs";
     }
 
-    @PutMapping(value="/faqs")
+    @PutMapping(value = "/faqs")
     public String faqs(Faq faq) {
         faqService.updateFaq(faq);
         return "redirect:/admin/faqs";
@@ -72,8 +78,12 @@ public class AdminController {
 
     @DeleteMapping("/accounts")
     public String accounts(Long id) {
-        userService.deleteById(id);
+        User user = userService.findById(id).get();
+        Playground pg = playgroundRepository.findById(user.getPlayground().getId()).get();
+        pg.setUser(null);
+        playgroundRepository.save(pg);
 
+        userService.deleteById(id);
         return "redirect:/admin/accounts";
     }
 }
