@@ -45,22 +45,52 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="d-flex">
-                                    <th scope="row" class="col-1 text-center align-self-center">1</th>
-                                    <td scope="col" class="col-3 align-self-center">test@test.com</td>
-                                    <td scope="col" class="col-2 align-self-center">test</td>
-                                    <td scope="col" class="col-3 align-self-center">개판 오분전 공원</td>
+                                <tr class="d-flex" th:each="manager : ${managers}">
+                                    <th scope="row" class="col-1 text-center align-self-center" th:text="${managerStat.index+1}" >index</th>
+                                    <td scope="col" class="col-3 align-self-center" th:text="${manager.email}">이메일</td>
+                                    <td scope="col" class="col-2 align-self-center" th:text="${manager.name}" >이름</td>
+                                    <td scope="col" class="col-3 align-self-center" th:text="${manager.playground.pgName}">관리 공원 이름</td>
                                     <td scope="col" class="col-3">
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                            data-target="#deleteModal">
+                                            data-target="#deleteModal" th:data-target="'#deleteModal'+${manager.id}" >
                                             <i class="fas fa-user-times"></i>
                                         </button>
                                     </td>
+
+                                    <!-- delete Modal -->
+                                    <div class="modal fade" th:id="'deleteModal'+${manager.id}" tabindex="-1" role="dialog"
+                                         aria-labelledby="deleteModalLabel" th:aria-labelledby="'deleteModalLabel'+${manager.id}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" th:id="'deleteModalLabel'+${manager.id}">알림</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    정말로 삭제하시겠습니까?
+                                                </div>
+                                                <form th:method="delete" th:action="@{/admin/accounts}">
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">아니오</button>
+                                                        <input th:value="${manager.id}" name="id" hidden>
+                                                        <button type="submit" class="btn btn-primary">삭제</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
+
+
                 </div>
 
 
@@ -83,29 +113,7 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- delete Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-         aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">알림</h5>
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    정말로 삭제하시겠습니까?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal">아니오</button>
-                    <button type="button" class="btn btn-primary">삭제</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <script th:replace="fragments/core-js :: core-js"></script>
 

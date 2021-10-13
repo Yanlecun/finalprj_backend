@@ -1,7 +1,9 @@
 package com.example.finalprj.web.user.controller;
 
 import com.example.finalprj.db.domain.Faq;
+import com.example.finalprj.db.domain.User;
 import com.example.finalprj.db.service.FaqService;
+import com.example.finalprj.db.service.UserService;
 import com.example.finalprj.web.user.controller.vo.FaqForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
     private final FaqService faqService;
+    private final UserService userService;
 
 
     @GetMapping("")
@@ -48,7 +51,6 @@ public class AdminController {
 
     @DeleteMapping("/faqs")
     public String faqs(Long id) {
-        System.out.println(id);
         faqService.deleteById(id);
         return "redirect:/admin/faqs";
     }
@@ -61,7 +63,17 @@ public class AdminController {
 
     @GetMapping("/accounts")
     public String accounts(Model model) {
+        List<User> managers = userService.findAllManager();
+
+        model.addAttribute("managers", managers);
         model.addAttribute("site", "accounts");
         return "accounts";
+    }
+
+    @DeleteMapping("/accounts")
+    public String accounts(Long id) {
+        userService.deleteById(id);
+
+        return "redirect:/admin/accounts";
     }
 }
