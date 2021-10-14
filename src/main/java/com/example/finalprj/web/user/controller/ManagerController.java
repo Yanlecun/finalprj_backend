@@ -20,13 +20,25 @@ public class ManagerController {
     private final EntryService entryService;
 
     @GetMapping("/usage/{id}")
-    public String faqs(@PathVariable(name = "id") long playgroundId, Model model) {
+    public String usage(@PathVariable(name = "id") long playgroundId, Model model) {
+        List<Long> userIds = entryService.findAllById(playgroundId, 2); // 이용중인 사람들 목록
+        List<User> users = new ArrayList<>();
+        for (Long id : userIds) {
+            users.add(userService.findById(id).orElse(null));
+        }
 
-
+        model.addAttribute("users", users);
         model.addAttribute("site", "usage");
         model.addAttribute("url", "manager");
         model.addAttribute("id", playgroundId);
         return "usage";
+    }
+
+    @PutMapping("/usage/{id}")
+    public String usage(@PathVariable(name = "id") long playgroundId, long userId) {
+        entryService.exitUser(userId, playgroundId);
+
+        return "redirect:/manager/usage/" + playgroundId;
     }
 
 //    @PostMapping(value = "/faqs", consumes = {"application/x-www-form-urlencoded;charset=UTF-8", MediaType.APPLICATION_FORM_URLENCODED_VALUE})
@@ -55,9 +67,11 @@ public class ManagerController {
 //        return "redirect:/admin/faqs";
 //    }
 
+    //////////////////////////////////////////////////////////
+
     @GetMapping("/reservation/{id}")
     public String reservation(@PathVariable(name = "id") long playgroundId, Model model) {
-        List<Long> userIds = entryService.findAllById(1, playgroundId);
+        List<Long> userIds = entryService.findAllById(playgroundId, 1);
         List<User> users = new ArrayList<>();
         for (Long id : userIds) {
             users.add(userService.findById(id).orElse(null));
@@ -71,23 +85,24 @@ public class ManagerController {
     }
 
     @PutMapping("/reservation/{id}")
-    public String reservation1(@PathVariable(name = "id") long playgroundId, long userId, Model model) {
+    public String reservation1(@PathVariable(name = "id") long playgroundId, long userId) {
         entryService.entryUser(userId, playgroundId);
 
         return "redirect:/manager/reservation/" + playgroundId;
     }
 
     @DeleteMapping("/reservation/{id}")
-    public String reservation2(@PathVariable(name = "id") long playgroundId, long userId, Model model) {
+    public String reservation2(@PathVariable(name = "id") long playgroundId, long userId) {
         User user = userService.findById(userId).get();
         System.out.println(user);
-        entryService.deleteUserIdStatusEquals(userId, 1, playgroundId); // status가 1인 userid 찾아서 지우기
+        entryService.deleteUserIdStatusEquals(userId, playgroundId, 1); // status가 1인 userid 찾아서 지우기
         if (!user.isEnabled()) {
             // 회원 아닌 사람 지울까 말까
         }
         return "redirect:/manager/reservation/" + playgroundId;
     }
 
+    //////////////////////////////////////////////////////////
 
     @GetMapping("/list/{id}")
     public String list(@PathVariable(name = "id") long playgroundId, Model model) {
