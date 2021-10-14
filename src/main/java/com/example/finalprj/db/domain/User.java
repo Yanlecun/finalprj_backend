@@ -1,5 +1,6 @@
 package com.example.finalprj.db.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,9 @@ public class User extends BaseEntity implements UserDetails {
     private String email;
     private String password;
     private boolean enabled;
+
+    @JsonProperty("dog_num") // 동물등록번호
+    private String dogNum;
 
     @OneToOne
     @ToString.Exclude

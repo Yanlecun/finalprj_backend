@@ -47,6 +47,10 @@ dependencies {
     // https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 
+    // https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-java8time
+    implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.4.RELEASE'
+
+
 }
 
 test {

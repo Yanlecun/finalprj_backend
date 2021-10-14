@@ -1,14 +1,14 @@
 package com.example.finalprj.web.user.controller;
 
 import com.example.finalprj.db.domain.User;
+import com.example.finalprj.db.service.EntryService;
 import com.example.finalprj.db.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -17,13 +17,15 @@ import java.util.List;
 public class ManagerController {
 
     private final UserService userService;
+    private final EntryService entryService;
 
-    @GetMapping("/usage")
-    public String faqs(Model model) {
+    @GetMapping("/usage/{id}")
+    public String faqs(@PathVariable(name = "id") long playgroundId, Model model) {
+
 
         model.addAttribute("site", "usage");
         model.addAttribute("url", "manager");
-        model.addAttribute("id", 1);
+        model.addAttribute("id", playgroundId);
         return "usage";
     }
 
@@ -53,34 +55,46 @@ public class ManagerController {
 //        return "redirect:/admin/faqs";
 //    }
 
-    @GetMapping("/reservation")
-    public String accounts(Model model) {
-        List<User> managers = userService.findAllManager();
-
-        model.addAttribute("managers", managers);
+    @GetMapping("/reservation/{id}")
+    public String reservation(@PathVariable(name = "id") long playgroundId, Model model) {
+        List<Long> userIds = entryService.findAllById(1, playgroundId);
+        List<User> users = new ArrayList<>();
+        for (Long id : userIds) {
+            users.add(userService.findById(id).orElse(null));
+        }
+        model.addAttribute("users", users);
         model.addAttribute("site", "reservation");
         model.addAttribute("url", "manager");
-        model.addAttribute("id", 1);
+        model.addAttribute("id", playgroundId);
+
         return "reservation";
     }
 
-//    @DeleteMapping("/accounts")
-//    public String accounts(Long id) {
-//        User user = userService.findById(id).get();
-//        Playground pg = playgroundRepository.findById(user.getPlayground().getId()).get();
-//        pg.setUser(null);
-//        playgroundRepository.save(pg);
-//
-//        userService.deleteById(id);
-//        return "redirect:/admin/accounts";
-//    }
+    @PutMapping("/reservation/{id}")
+    public String reservation1(@PathVariable(name = "id") long playgroundId, long userId, Model model) {
+        entryService.entryUser(userId, playgroundId);
 
-    @GetMapping("/list")
-    public String list(Model model) {
+        return "redirect:/manager/reservation/" + playgroundId;
+    }
+
+    @DeleteMapping("/reservation/{id}")
+    public String reservation2(@PathVariable(name = "id") long playgroundId, long userId, Model model) {
+        User user = userService.findById(userId).get();
+        System.out.println(user);
+        entryService.deleteUserIdStatusEquals(userId, 1, playgroundId); // status가 1인 userid 찾아서 지우기
+        if (!user.isEnabled()) {
+            // 회원 아닌 사람 지울까 말까
+        }
+        return "redirect:/manager/reservation/" + playgroundId;
+    }
+
+
+    @GetMapping("/list/{id}")
+    public String list(@PathVariable(name = "id") long playgroundId, Model model) {
 
         model.addAttribute("site", "list");
         model.addAttribute("url", "manager");
-        model.addAttribute("id", 1);
+        model.addAttribute("id", playgroundId);
         return "list";
     }
 }

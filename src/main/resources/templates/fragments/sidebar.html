@@ -63,26 +63,26 @@
 
 
     <!-- /main, manager가 사용하는 사이드바, if문은 관리자 계정 페이지에서도 재사용하고 있어서 구분해야함-->
-    <!-- 1. Nav Item - FAQ (admin)-->
+    <!-- 1. Nav Item - 출입관리 (manager)-->
     <!--    현재 사용중인 목록 -->
     <li class="nav-item" th:if="${url} == manager" th:classappend="${site} == usage ? active">
-        <a class="nav-link" th:href="@{/manager/usage} ">
+        <a class="nav-link" th:href="@{/manager/usage}+'/'+${id}">
             <i class="fas fa-fw fa-door-open"></i>
             <span>출입 관리</span></a>
     </li>
 
 
-    <!-- 2. Nav Item - accounts (admin) -->
+    <!-- 2. Nav Item - 예약관리 (manager) -->
     <!--    놀이터 예약 현황 관리 + 현장 등록 -->
     <li class="nav-item" th:if="${url} == manager" th:classappend="${site} == reservation ? active">
-        <a class="nav-link" th:href="@{/manager/reservation} ">
+        <a class="nav-link" th:href="@{/manager/reservation}+'/'+${id}">
             <i class="far fa-fw fa-calender-alt"></i>
             <span>예약 관리</span></a>
     </li>
 
-    <!-- 3. Nav Item - accounts (admin) -->
+    <!-- 3. Nav Item - 기록 (manager) -->
     <li class="nav-item" th:if="${url} == manager" th:classappend="${site} == list ? active">
-        <a class="nav-link" th:href="@{/manager/list} ">
+        <a class="nav-link" th:href="@{/manager/list}+'/'+${id}">
             <i class="fas fa-fw fa-list"></i>
             <span>사용자 놀이터 사용기록</span></a>
     </li>
