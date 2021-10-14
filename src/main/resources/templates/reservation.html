@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <th:block th:replace="fragments/commonHead :: header"></th:block>
@@ -57,7 +57,7 @@
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             놀이터 이름
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${pg.pgName}">개판
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">개판
                                             오분전 공원
                                         </div>
                                     </div>
@@ -78,8 +78,7 @@
                                         <div class="text-xs font-weight-bold text-red text-uppercase mb-1">
                                             담당 놀이터 관리자
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                             th:text="${pg.user != null} ? ${pg.user.name} : 'None'"></div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">he</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-user fa-2x text-gray-300"></i>

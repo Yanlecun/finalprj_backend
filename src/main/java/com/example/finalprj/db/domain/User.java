@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data

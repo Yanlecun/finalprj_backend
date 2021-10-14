@@ -18,6 +18,7 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -48,7 +49,10 @@ public class PageController {
             if (user.getAuthorities().contains(Authority.ADMIN_AUTHORITY)) {
                 return "redirect:/admin";
             } else if (user.getAuthorities().contains(Authority.MANAGER_AUTHORITY)) {
-                return "redirect:/manager";
+                Long id =  user.getPlayground().getId();
+                return String.format("redirect:/main/") + id; // 각각 관리하는 페이지로 이동
+            } else {
+
             }
         }
         SavedRequest savedRequest = requestCache.getRequest(request, null);
@@ -87,7 +91,21 @@ public class PageController {
     }
 
     @GetMapping("/main")
-    public String adminPage() {
+    public String mainPage(Model model) {
+        model.addAttribute("site", "main");
+        model.addAttribute("url", "main");
+
+        return "main";
+    }
+
+    @GetMapping("/main/{id}")
+    public String mainPage(@PathVariable long id, Model model) {
+        Playground playground = playgroundService.findById(id).get() ;
+
+        model.addAttribute("pg", playground);
+        model.addAttribute("site", "main");
+        model.addAttribute("url", "manager");
+        model.addAttribute("id", id);
         return "main";
     }
 

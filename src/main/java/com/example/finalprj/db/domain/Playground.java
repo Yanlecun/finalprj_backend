@@ -1,12 +1,10 @@
 package com.example.finalprj.db.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,6 +23,4 @@ public class Playground extends BaseEntity {
 
     @OneToOne
     User user;
-
-
 }

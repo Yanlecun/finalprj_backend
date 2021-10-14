@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     ;
                 })
                 .logout(logout -> {
-                    logout.logoutSuccessUrl("/")
+                    logout.logoutSuccessUrl("/login")
                     ;
                 })
                 .addFilterAt(filter, UsernamePasswordAuthenticationFilter.class)

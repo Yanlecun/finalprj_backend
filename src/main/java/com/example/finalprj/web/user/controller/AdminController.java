@@ -30,6 +30,7 @@ public class AdminController {
         List<Playground> playgrounds = playgroundService.findAll();
         model.addAttribute("playgrounds", playgrounds);
         model.addAttribute("site", "admin");
+        model.addAttribute("url", "admin");
         return "admin";
     }
 
@@ -39,6 +40,7 @@ public class AdminController {
 
         model.addAttribute("faqs", faqs);
         model.addAttribute("site", "faqs");
+        model.addAttribute("url", "admin");
         return "faqs";
     }
 
@@ -73,6 +75,7 @@ public class AdminController {
 
         model.addAttribute("managers", managers);
         model.addAttribute("site", "accounts");
+        model.addAttribute("url", "admin");
         return "accounts";
     }
 

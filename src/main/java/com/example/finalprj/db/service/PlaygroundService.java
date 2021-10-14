@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringTokenizer;
 
 @Service
@@ -183,5 +184,9 @@ public class PlaygroundService {
 
     public List<Playground> findAll() {
         return playgroundRepository.findAll();
+    }
+
+    public Optional<Playground> findById(long id) {
+        return playgroundRepository.findById(id);
     }
 }

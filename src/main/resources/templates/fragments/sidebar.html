@@ -1,47 +1,92 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://thymeleaf.org">
+<html lang="ko" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" th:fragment="sidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand flex align-items-center justify-content-center" th:href="@{/admin}">
-<!--        <img class="img-fluid" src="https://trello.com/1/cards/616681e4359990340038dbfb/attachments/616681e84d4a75053e1a79a0/previews/616681e84d4a75053e1a79cf/download/%EC%9D%B4%EB%A6%84-removebg-preview.png" />-->
+    <a class="sidebar-brand flex align-items-center justify-content-center" th:if="${url} == admin" th:href="@{/admin}">
         <div class="sidebar-brand-text" style="font-size: larger;">The dog and I</div>
     </a>
+
+    <a class="sidebar-brand flex align-items-center justify-content-center" th:unless="${url} == admin"
+       th:href="@{/admin}">
+        <div class="sidebar-brand-text" style="font-size: larger;">The dog and I</div>
+    </a>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
+
+
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item" th:classappend="${site} == admin ? active">
+    <li class="nav-item" th:if="${url} == admin" th:classappend="${site} == admin ? active">
         <a class="nav-link" th:href="@{/admin}">
             <i class="fas fa-fw fa-home"></i>
             <span>메인화면</span></a>
     </li>
 
+    <!-- 권한에 따라 분기할려고 if문 만듦 -->
+    <li class="nav-item" th:unless="${url} == admin" th:classappend="${site} == main ? active">
+        <a class="nav-link" th:href="@{/main}+'/'+${id}">
+            <i class="fas fa-fw fa-home"></i>
+            <span>메인화면</span></a>
+    </li>
+
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <!-- Heading -->
+    <!-- Heading1 - 관리자페이지 -->
     <div class="sidebar-heading">
         Settings
     </div>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item" th:classappend="${site} == faqs ? active">
+
+    <!--    /admin 이 사용하는 사이드바-->
+    <!-- Nav Item - FAQ (admin)-->
+    <li class="nav-item" th:if="${url} == admin" th:classappend="${site} == faqs ? active">
         <a class="nav-link" th:href="@{/admin/faqs} ">
             <i class="fas fa-fw fa-question"></i>
             <span>홈페이지 FAQ</span></a>
     </li>
 
-    <!-- Nav Item - Tables -->
-    <li class="nav-item" th:classappend="${site} == accounts ? active">
+
+    <!-- Nav Item - accounts (admin) -->
+    <li class="nav-item" th:if="${url} == admin" th:classappend="${site} == accounts ? active">
         <a class="nav-link" th:href="@{/admin/accounts} ">
             <i class="fas fa-fw fa-user"></i>
             <span>관리자 계정</span></a>
     </li>
+
+
+    <!-- /main, manager가 사용하는 사이드바, if문은 관리자 계정 페이지에서도 재사용하고 있어서 구분해야함-->
+    <!-- 1. Nav Item - FAQ (admin)-->
+    <!--    현재 사용중인 목록 -->
+    <li class="nav-item" th:if="${url} == manager" th:classappend="${site} == usage ? active">
+        <a class="nav-link" th:href="@{/manager/usage} ">
+            <i class="fas fa-fw fa-door-open"></i>
+            <span>출입 관리</span></a>
+    </li>
+
+
+    <!-- 2. Nav Item - accounts (admin) -->
+    <!--    놀이터 예약 현황 관리 + 현장 등록 -->
+    <li class="nav-item" th:if="${url} == manager" th:classappend="${site} == reservation ? active">
+        <a class="nav-link" th:href="@{/manager/reservation} ">
+            <i class="far fa-fw fa-calender-alt"></i>
+            <span>예약 관리</span></a>
+    </li>
+
+    <!-- 3. Nav Item - accounts (admin) -->
+    <li class="nav-item" th:if="${url} == manager" th:classappend="${site} == list ? active">
+        <a class="nav-link" th:href="@{/manager/list} ">
+            <i class="fas fa-fw fa-list"></i>
+            <span>사용자 놀이터 사용기록</span></a>
+    </li>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
