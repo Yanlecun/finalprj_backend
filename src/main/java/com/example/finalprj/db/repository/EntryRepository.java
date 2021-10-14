@@ -14,7 +14,10 @@ import java.util.Optional;
 public interface EntryRepository extends JpaRepository<Entry, Long> {
 
     @Query("select userId from Entry where status = :status and playgroundId = :playgroundId order by createdAt desc")
-    List<Long> findReservation(long playgroundId, int status);
+    List<Long> findAllUserIdByPlaygroundIdAndStatusEqual(long playgroundId, int status);
+
+    @Query("SELECT e from Entry e WHERE e.playgroundId = :playgroundId and e.status = :status order by e.updatedAt desc")
+    List<Entry> findAllByPlaygroundIdAndStatusEqual(long playgroundId, int status);
 
     @Query("delete from Entry where status = :status and playgroundId = :playgroundId and userId = :userId")
     @Transactional
@@ -23,7 +26,6 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
 
     @Query("select e from Entry as e where e.status = :status and e.playgroundId = :playgroundId and e.userId = :userId")
     Optional<Entry> findEntryWhereUserPlaygroundStatus(long userId, long playgroundId, int status);
-
 
     @Query("update Entry e SET e.status = 2 where e.status = 1 and e.playgroundId = :playgroundId and e.userId = :userId")
     @Modifying
@@ -34,4 +36,6 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
     @Modifying(clearAutomatically = true)
     @Transactional
     void saveNative(long userId, long playgroundId, int status, LocalDateTime updatedAt);
+
+
 }

@@ -4,6 +4,9 @@
 <head>
     <th:block th:replace="fragments/commonHead :: header"></th:block>
 
+    <!-- Custom styles for this page -->
+    <link type="text/css" href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
     <style>
         .text-red {
             color: darkred;
@@ -43,69 +46,50 @@
 
                 <!-- Page Heading -->
                 <div class="mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">메인화면</h1>
+                    <h1 class="h3 mb-0 text-gray-800"></h1>
                 </div>
 
-                <!-- Content Row -->
-                <div class="row">
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-5 col-md-12 mb-4">
-                        <div class="card border-left-primary shadow h-100 py-1">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            놀이터 이름
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">개판
-                                            오분전 공원
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-map-marker-alt fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <!-- DataTales -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">놀이터 전체 출입 기록</h6>
                     </div>
-
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-4 col-md-8 mb-4">
-                        <div class="card border-left-red shadow h-100 py-1">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-red text-uppercase mb-1">
-                                            담당 놀이터 관리자
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">he</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-user fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pending Requests Card Example -->
-                    <div class="col-xl-3 col-md-4 mb-4">
-                        <div class="card border-left-purle shadow h-100 py-1">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-purple text-uppercase mb-1">
-                                            현재 이용자 수
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            <span class="text-purple">0 </span> / <span>30</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-users fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Index</th>
+                                    <th>성명</th>
+                                    <th>동물등록번호</th>
+                                    <th>입장시간</th>
+                                    <th>퇴장시간</th>
+                                    <th>예약번호</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Index</th>
+                                    <th>성명</th>
+                                    <th>동물등록번호</th>
+                                    <th>입장시간</th>
+                                    <th>퇴장시간</th>
+                                    <th>예약번호</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                <th:block th:each="entry : ${entries}">
+                                    <tr>
+                                        <td th:text="${entryStat.index}+1">Index</td>
+                                        <td th:text="${users.get(entryStat.index).name}">이름</td>
+                                        <td th:text="${users.get(entryStat.index).dogNum}">강아지 번호</td>
+                                        <td th:text="${#temporals.format(entry.updatedAt,'yyyy-MM-dd HH-mm-ss')}">입장</td>
+                                        <td th:text="${#temporals.format(entry.createdAt,'yyyy-MM-dd HH-mm-ss')}">퇴장</td>
+                                        <td th:text="${entry.id}">예약번호</td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -128,6 +112,11 @@
 
 
 <script th:replace="fragments/core-js :: core-js"></script>
+<!-- Page level plugins -->
+<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/js/demo/datatables-demo.js"></script>
+
 </body>
 
 </html>

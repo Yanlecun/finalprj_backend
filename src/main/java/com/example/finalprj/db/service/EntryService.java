@@ -15,8 +15,13 @@ public class EntryService {
     private final EntryRepository entryRepository;
     private final UserRepository userRepository;
 
-    public List<Long> findAllById(long playground_id, int status) {
-        return entryRepository.findReservation(playground_id, status);
+    public List<Long> findAllUserIdByPlaygroundIdAndStatusEqual(long playground_id, int status) {
+        return entryRepository.findAllUserIdByPlaygroundIdAndStatusEqual(playground_id, status);
+    }
+
+    public List<Entry> findAllByPlaygroundIdAndStatusEqual(long playground_id, int status) {
+        return entryRepository.findAllByPlaygroundIdAndStatusEqual(playground_id, status);
+
     }
 
     @Transactional

@@ -76,7 +76,7 @@
     <!--    놀이터 예약 현황 관리 + 현장 등록 -->
     <li class="nav-item" th:if="${url} == manager" th:classappend="${site} == reservation ? active">
         <a class="nav-link" th:href="@{/manager/reservation}+'/'+${id}">
-            <i class="far fa-fw fa-calender-alt"></i>
+            <i class="far fa-fw fa-calendar-alt"></i>
             <span>예약 관리</span></a>
     </li>
 
@@ -84,7 +84,7 @@
     <li class="nav-item" th:if="${url} == manager" th:classappend="${site} == list ? active">
         <a class="nav-link" th:href="@{/manager/list}+'/'+${id}">
             <i class="fas fa-fw fa-list"></i>
-            <span>사용자 놀이터 사용기록</span></a>
+            <span>놀이터 전체 출입 기록</span></a>
     </li>
 
 

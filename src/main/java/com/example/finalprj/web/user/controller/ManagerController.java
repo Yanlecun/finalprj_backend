@@ -1,5 +1,6 @@
 package com.example.finalprj.web.user.controller;
 
+import com.example.finalprj.db.domain.Entry;
 import com.example.finalprj.db.domain.User;
 import com.example.finalprj.db.service.EntryService;
 import com.example.finalprj.db.service.UserService;
@@ -21,7 +22,7 @@ public class ManagerController {
 
     @GetMapping("/usage/{id}")
     public String usage(@PathVariable(name = "id") long playgroundId, Model model) {
-        List<Long> userIds = entryService.findAllById(playgroundId, 2); // 이용중인 사람들 목록
+        List<Long> userIds = entryService.findAllUserIdByPlaygroundIdAndStatusEqual(playgroundId, 2); // 이용중인 사람들 목록
         List<User> users = new ArrayList<>();
         for (Long id : userIds) {
             users.add(userService.findById(id).orElse(null));
@@ -71,7 +72,7 @@ public class ManagerController {
 
     @GetMapping("/reservation/{id}")
     public String reservation(@PathVariable(name = "id") long playgroundId, Model model) {
-        List<Long> userIds = entryService.findAllById(playgroundId, 1);
+        List<Long> userIds = entryService.findAllUserIdByPlaygroundIdAndStatusEqual(playgroundId, 1);
         List<User> users = new ArrayList<>();
         for (Long id : userIds) {
             users.add(userService.findById(id).orElse(null));
@@ -106,10 +107,23 @@ public class ManagerController {
 
     @GetMapping("/list/{id}")
     public String list(@PathVariable(name = "id") long playgroundId, Model model) {
+        List<Entry> entries = entryService.findAllByPlaygroundIdAndStatusEqual(playgroundId,3);  // 놀이터 1에 출입한 기록 있는 user_id 시산 순서로 불러오기
+        List<User> users = new ArrayList<>();
 
+        entries.forEach(e -> {
+            long tempId = e.getUserId();
+            User tempUser = userService.findById(tempId).orElse(null);
+            users.add(tempUser);
+        });
+
+        System.out.println(users);
+
+        model.addAttribute("users", users);
+        model.addAttribute("entries", entries);
         model.addAttribute("site", "list");
         model.addAttribute("url", "manager");
         model.addAttribute("id", playgroundId);
         return "list";
     }
+
 }
