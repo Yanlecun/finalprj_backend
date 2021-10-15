@@ -67,7 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .antMatchers("/login").permitAll()
                             .antMatchers("/error").permitAll()
                             .antMatchers("/signup").permitAll() // teacher, stu 회원가입 permit
-                            .antMatchers("/swagger-ui/").permitAll()
+                            .antMatchers("/api/**").permitAll()
+                            //.antMatchers("/swagger-ui/").permitAll()  api쓰면 swagger 못쓰더라
                             .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN") //permitAll()
                             .antMatchers("/manager/**").hasAnyAuthority("ROLE_MANAGER")
                             .anyRequest().authenticated()

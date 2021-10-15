@@ -11,14 +11,13 @@
     </a>
 
     <a class="sidebar-brand flex align-items-center justify-content-center" th:unless="${url} == admin"
-       th:href="@{/admin}">
+       th:href="@{/main}">
         <div class="sidebar-brand-text" style="font-size: larger;">The dog and I</div>
     </a>
 
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-
 
 
     <!-- Nav Item - Dashboard -->
@@ -32,7 +31,8 @@
     <li class="nav-item" th:unless="${url} == admin" th:classappend="${site} == main ? active">
         <a class="nav-link" th:href="@{/main}+'/'+${id}">
             <i class="fas fa-fw fa-home"></i>
-            <span>메인화면</span></a>
+            <span>메인화면</span>
+        </a>
     </li>
 
 
