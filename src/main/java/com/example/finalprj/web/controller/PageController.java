@@ -2,9 +2,11 @@ package com.example.finalprj.web.controller;
 
 
 import com.example.finalprj.db.domain.Authority;
+import com.example.finalprj.db.domain.Entry;
 import com.example.finalprj.db.domain.Playground;
 import com.example.finalprj.db.domain.User;
 import com.example.finalprj.db.repository.PlaygroundRepository;
+import com.example.finalprj.db.service.EntryService;
 import com.example.finalprj.db.service.PlaygroundService;
 import com.example.finalprj.db.service.UserService;
 import com.example.finalprj.web.controller.vo.UserSignUpForm;
@@ -35,6 +37,7 @@ public class PageController {
     private final PlaygroundService playgroundService;
     private final UserService userService;
     private final PlaygroundRepository playgroundRepository;
+    private final EntryService entryService;
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
@@ -99,13 +102,15 @@ public class PageController {
     }
 
     @GetMapping("/main/{id}")
-    public String mainPage(@PathVariable long id, Model model) {
-        Playground playground = playgroundService.findById(id).get() ;
+    public String mainPage(@PathVariable(name="id") long playgroundId, Model model) {
+        Playground playground = playgroundService.findById(playgroundId).get() ;
+        List<Entry> entries = entryService.findAllByPlaygroundIdAndStatusEqual(playgroundId, 2);
 
+        model.addAttribute("userNum", entries.size());
         model.addAttribute("pg", playground);
         model.addAttribute("site", "main");
         model.addAttribute("url", "manager");
-        model.addAttribute("id", id);
+        model.addAttribute("id", playgroundId);
         return "main";
     }
 
