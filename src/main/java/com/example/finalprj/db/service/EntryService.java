@@ -14,6 +14,7 @@ import java.util.List;
 public class EntryService {
     private final EntryRepository entryRepository;
     private final UserRepository userRepository;
+    private Long id;
 
     public List<Long> findAllUserIdByPlaygroundIdAndStatusEqual(long playground_id, int status) {
         return entryRepository.findAllUserIdByPlaygroundIdAndStatusEqual(playground_id, status);
@@ -46,5 +47,9 @@ public class EntryService {
         deleteUserIdStatusEquals(userId, playgroundId, 2);  // 삭제
 
 
+    }
+
+    public List<Entry> findAllByUserIdAndStatusEqual(Long id, int status) {
+        return entryRepository.findAllByUserIdAndStatus(id, status);
     }
 }

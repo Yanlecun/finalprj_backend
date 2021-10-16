@@ -1,6 +1,7 @@
 package com.example.finalprj.db.repository;
 
 import com.example.finalprj.db.domain.Entry;
+import com.example.finalprj.db.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -37,5 +38,5 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
     @Transactional
     void saveNative(long userId, long playgroundId, int status, LocalDateTime updatedAt);
 
-
+    List<Entry> findAllByUserIdAndStatus(Long id, int status);
 }
