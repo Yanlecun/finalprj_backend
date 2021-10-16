@@ -71,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             //.antMatchers("/swagger-ui/").permitAll()  api쓰면 swagger 못쓰더라
                             .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN") //permitAll()
                             .antMatchers("/manager/**").hasAnyAuthority("ROLE_MANAGER")
+                            .antMatchers("/user/**").hasAnyAuthority("ROLE_USER")
                             .anyRequest().authenticated()
                     ;
                 })

@@ -67,12 +67,17 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     }
 
     protected String determineTargetUrl(final HttpServletRequest request, SavedRequest savedRequest, final Authentication authentication) {
+        System.out.println(">>>" + request);
+        System.out.println(">>>" + savedRequest);
+        System.out.println(">>>" + authentication);
+
         if(savedRequest != null) {
             String redirectUrl = savedRequest.getRedirectUrl();
             if(redirectUrl != null && !redirectUrl.startsWith("/login")) {
                 return savedRequest.getRedirectUrl();
             }
         }
+
 
 //        if(request.getParameter("site").equals("manager")) {
 //            return "/manager";

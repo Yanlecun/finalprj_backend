@@ -122,6 +122,7 @@ public class ManagerController {
         model.addAttribute("entries", entries);
         model.addAttribute("site", "list");
         model.addAttribute("url", "manager");
+        model.addAttribute("myId", playgroundId);
         model.addAttribute("id", playgroundId);
         return "list";
     }

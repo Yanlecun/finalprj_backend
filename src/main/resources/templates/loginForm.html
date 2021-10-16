@@ -69,15 +69,9 @@
             color: darkgray;
         }
         .register2 {
-            color: mediumvioletred;
-            font-size: 18px;
+            font-size: 1.1em;
             margin-left: 2px;
-            font-weight: bold;
         }
-        .register2:hover {
-            color: palevioletred;
-        }
-
         .from_reg{
             padding-top: 10px;
         }
@@ -106,9 +100,10 @@
             </form>
 
             <hr class="my-12"/>
-            <div>
-                <span class="register1">Don't have an account?</span>
-                <a href="/signup" class="register2" >Register</a>
+            <div class="text-center">
+                <span class="register1 small">계정이 없으신가요?</span>
+                <a href="/signup?site=user" class="register2 text-primary small" >유저</a> /
+                <a href="/signup?site=manager" class="register2 text-primary small" >관리자</a>
             </div>
 
             <!-- 상태에 따라 보여지는 부분이 달라짐 -->

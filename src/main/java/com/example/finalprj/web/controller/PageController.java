@@ -55,40 +55,51 @@ public class PageController {
                 Long id =  user.getPlayground().getId();
                 return String.format("redirect:/main/") + id; // 각각 관리하는 페이지로 이동
             } else {
-
+                return "redirect:/main";
             }
         }
         SavedRequest savedRequest = requestCache.getRequest(request, null);
+
         model.addAttribute("error", error);
         return "loginForm";
     }
 
     @GetMapping("/signup")
-    public String signUp(Model model) {
-        List<Playground> pg = playgroundService.getPlaygroundList();
-        model.addAttribute("pgList", pg);
+    public String signUp(@RequestParam String site, Model model) {
+        if(site.equals("manager")) {
+            List<Playground> pg = playgroundService.getPlaygroundList();
+            model.addAttribute("pgList", pg);
+        }
+        model.addAttribute("site", site);
         return "signUp";
     }
 
     @PostMapping(value = "/signup", consumes = {"application/x-www-form-urlencoded;charset=UTF-8", MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public String signUp(UserSignUpForm form, Model model) {
+    public String signUp(@RequestParam String site, UserSignUpForm form, Model model) {
         final User user = User.builder()
                 .name(form.getName())
                 .email(form.getEmail())
                 .password(passwordEncoder.encode(form.getPassword()))
                 .enabled(true)
                 .build();
-        userService.findPlaygroundByPgName(form.getPgName()).ifPresent(pg ->{
-            user.setPlayground(pg);
-        });
+        if(site.equals("manager")) {
+            userService.findPlaygroundByPgName(form.getPgName()).ifPresent(pg -> {
+                user.setPlayground(pg);
+                User saved = userService.save(user);
 
-        User saved = userService.save(user);
+                Playground playground = playgroundRepository.findById(saved.getPlayground().getId()).get();
+                playground.setUser(saved);
+                playgroundRepository.save(playground);
 
-        Playground playground = playgroundRepository.findById(saved.getPlayground().getId()).get();
-        playground.setUser(saved);
-        playgroundRepository.save(playground);
+                userService.addAuthority(saved.getId(), Authority.ROLE_MANAGER);
+            });
+        } else {
+            user.setDogNum(form.getDogNum());
+            User saved = userService.save(user);
 
-        userService.addAuthority(saved.getId(), Authority.ROLE_MANAGER);
+            userService.addAuthority(saved.getId(), Authority.ROLE_USER);
+        }
+
         model.addAttribute("register", true);
         return "loginForm";
     }
