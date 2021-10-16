@@ -105,16 +105,27 @@ public class PageController {
     }
 
     @GetMapping("/main")
-    public String mainPage(Model model) {
-        model.addAttribute("site", "main");
+    public String mainPage(@AuthenticationPrincipal User user, Model model) {
+        if(user.getPlayground() != null) {
+            long playgroundId = user.getPlayground().getId();
+            model.addAttribute("site", "main");
+            return "redirect:/main/" + playgroundId;
+        }
+
         model.addAttribute("url", "main");
 
         return "main";
     }
 
     @GetMapping("/main/{id}")
-    public String mainPage(@PathVariable(name="id") long playgroundId, Model model) {
+    public String mainPage(@AuthenticationPrincipal User user,@PathVariable(name="id") long playgroundId, Model model) {
         Playground playground = playgroundService.findById(playgroundId).get() ;
+        
+        if(user.getAuthorities().contains(Authority.ADMIN_AUTHORITY)) { // 관리자페이지
+            user.setPlayground(playground);
+            userService.save(user);
+        }
+
         List<Entry> entries = entryService.findAllByPlaygroundIdAndStatusEqual(playgroundId, 2);
 
         model.addAttribute("userNum", entries.size());

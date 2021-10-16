@@ -56,14 +56,14 @@
                                     <td scope="col" class="col-3 align-self-center" th:text="${#temporals.format(user.updatedAt,'yyyy-MM-dd HH-mm-ss')}">
                                     </td>
                                     <td scope="col" class="col-3">
-                                        <form th:method="put" th:action="@{/manager/reservation/{id}(id = ${id})}" style="all:unset">
+                                        <form th:method="put" th:action="@{/manager/reservation}" style="all:unset">
                                             <button type="submit" class="btn btn-primary btn-sm" data-toggle="modal">
                                                 <input name="userId" th:value="${user.id}" hidden>
                                                 입장 <i class="far fa-fw fa-check-circle"></i>
                                             </button>
 
                                         </form>
-                                        <form th:method="delete" th:action="@{/manager/reservation/{id}(id = ${id})}" style="all:unset">
+                                        <form th:method="delete" th:action="@{/manager/reservation}" style="all:unset">
                                             <button type="submit" class="btn btn-primary btn-sm ml-4" data-toggle="modal">
                                                 <input name="userId" th:value="${user.id}" hidden>
                                                 예약삭제 <i class="fas fa-fw fa-ban"></i>
@@ -74,7 +74,10 @@
                             </th:block>
                         </th:block>
                         <th:block th:unless="${!users.empty}">
-                            <h3>아직 예약 신청이 없습니다.</h3>
+                            <tr class="d-flex">
+                                <th scope="row" class="col-12 text-center align-self-center">예약신청이 없어요
+                                </th>
+                            </tr>
                         </th:block>
                         </tbody>
                     </table>

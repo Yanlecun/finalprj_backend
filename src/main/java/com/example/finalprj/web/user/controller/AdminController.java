@@ -10,6 +10,7 @@ import com.example.finalprj.db.service.UserService;
 import com.example.finalprj.web.user.controller.vo.FaqForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -70,7 +71,12 @@ public class AdminController {
     }
 
     @GetMapping("/accounts")
-    public String accounts(Model model) {
+    public String accounts(@AuthenticationPrincipal User user, Model model) {
+        if(user.getPlayground() != null) {
+            user.setPlayground(null);
+            userService.save(user);
+        }
+
         List<User> managers = userService.findAllManager();
 
         model.addAttribute("managers", managers);

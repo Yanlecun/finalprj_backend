@@ -42,8 +42,10 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <th:block th:if="${id}">
-<!--                    <div th:replace="fragments/mainIndex :: mainIndex"/>-->
-                    hello
+                    <div th:replace="fragments/mainIndex :: mainIndex"/>
+                </th:block>
+                <th:block th:unless="${id}">
+                    <h1>ds</h1>
                 </th:block>
             </div>
             <!-- /.container-fluid -->
@@ -64,7 +66,7 @@
 
 
 <script th:replace="fragments/core-js :: core-js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6c17a22e95f421aa566af7eb9a3fa2ea"></script>
+
 <!--<script>-->
 
 <!--    var container = document.getElementById('map');-->
