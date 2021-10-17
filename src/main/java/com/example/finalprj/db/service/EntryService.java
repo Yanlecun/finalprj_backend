@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +60,13 @@ public class EntryService {
 
     public Integer countByPlaygroundIdAndStatus(long pgId, int i) {
         return entryRepository.countByPlaygroundIdAndStatus(pgId, i);
+    }
+
+    public void save(long userId, long playgroundId, int status) {
+        entryRepository.saveByUserIdAndPlaygroundIdAndStatus(userId, playgroundId, status);
+    }
+
+    public Optional<Entry> findByUserIdAndPlaygroundIdAndStatus(long id, long playgroundId, int i) {
+        return entryRepository.findByUserIdAndPlaygroundIdAndStatus(id, playgroundId, i);
     }
 }

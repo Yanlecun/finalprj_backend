@@ -126,9 +126,14 @@ public class PageController {
             userService.save(user);
         }
 
-        List<Entry> entries = entryService.findAllByPlaygroundIdAndStatusEqual(playgroundId, 2);
+        List<Entry> entriesUsing = entryService.findAllByPlaygroundIdAndStatusEqual(playgroundId, 2);
+        List<Entry> entriesReservation = entryService.findAllByPlaygroundIdAndStatusEqual(playgroundId, 1);
 
-        model.addAttribute("userNum", entries.size());
+        Entry entryUserHavingReservation = entryService.findByUserIdAndPlaygroundIdAndStatus(user.getId(), playgroundId, 1).orElse(null);
+
+        model.addAttribute("entry", entryUserHavingReservation);
+        model.addAttribute("reservationNum", entriesReservation.size());
+        model.addAttribute("userNum", entriesUsing.size());
         model.addAttribute("pg", playground);
         model.addAttribute("site", "main");
         model.addAttribute("url", "manager");

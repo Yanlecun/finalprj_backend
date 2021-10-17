@@ -1,8 +1,26 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <th:block th:replace="fragments/commonHead :: header"/>
+
+    <style>
+        .text-red {
+            color: darkred;
+        }
+
+        .border-left-red {
+            border-left: 4px solid darkred;
+        }
+
+        .text-purple {
+            color: rebeccapurple;
+        }
+
+        .border-left-purle {
+            border-left: 4px solid rebeccapurple;
+        }
+    </style>
 
 </head>
 
@@ -24,7 +42,8 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <th:block th:if="${id}">
-                    <div th:replace="fragments/mainIndex :: mainIndex"/>
+                    <div sec:authorize="hasRole('MANAGER')" th:replace="fragments/mainIndex :: mainIndex"/>
+                    <div sec:authorize="hasRole('USER')" th:replace="fragments/user/mainIndexUser :: mainIndexUser"/>
                 </th:block>
                 <th:block th:unless="${id}">
                     <div th:replace="fragments/user/userMain :: userMain"/>

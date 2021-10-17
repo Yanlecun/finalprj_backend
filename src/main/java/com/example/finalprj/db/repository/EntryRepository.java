@@ -47,5 +47,12 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
     List<Entry> findAllByStatusOrderByPlaygroundId(long i);
 
     int countByPlaygroundIdAndStatus(long pgId, int i);
+
+    @Query(value = "INSERT INTO entry_list(id, user_id, playground_id,status) values (FLOOR(RAND()*(999999)+100000), :userId, :playgroundId ,:status)", nativeQuery = true)
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    void saveByUserIdAndPlaygroundIdAndStatus(long userId, long playgroundId, int status);
+
+    Optional<Entry> findByUserIdAndPlaygroundIdAndStatus(long id, long playgroundId, int i);
 }
 

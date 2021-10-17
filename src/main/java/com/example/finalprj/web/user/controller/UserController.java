@@ -10,9 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +45,19 @@ public class UserController {
         return "/user/reservation";
     }
 
+    @PostMapping("/reservation")
+    public String reservation(@AuthenticationPrincipal User user, @RequestParam long playgroundId) {
+        entryService.save(user.getId(), playgroundId, 1);
+
+        return "redirect:/main/"+playgroundId;
+    }
+
     @DeleteMapping("/reservation")
-    public String reservation(long id) {
+    public String reservation(long id, Integer playgroundId) {
         entryService.deleteByIdAndStatus(id, 1);
+        if(playgroundId != null) {
+            return "redirect:/main/"+playgroundId;
+        }
 
         return "redirect:/user/reservation";
     }
