@@ -63,8 +63,10 @@
                                     <tr>
                                         <td th:text="${entryStat.index}+1">Index</td>
                                         <td th:text="${playgrounds.get(entryStat.index).pgName}">이름</td>
-                                        <td th:text="${#temporals.format(entry.updatedAt,'yyyy-MM-dd HH-mm-ss')}">입장</td>
-                                        <td th:text="${#temporals.format(entry.createdAt,'yyyy-MM-dd HH-mm-ss')}">퇴장</td>
+                                        <td th:text="${#temporals.format(entry.updatedAt,'yyyy-MM-dd HH-mm-ss')}">입장
+                                        </td>
+                                        <td th:text="${#temporals.format(entry.createdAt,'yyyy-MM-dd HH-mm-ss')}">퇴장
+                                        </td>
                                         <td th:text="${entry.id}">예약번호</td>
                                     </tr>
                                 </th:block>

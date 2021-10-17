@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,24 +27,45 @@ public class UserController {
     private final PlaygroundService playgroundService;
 
     @GetMapping("/reservation")
-    public String reservation(@AuthenticationPrincipal User user) {
+    public String reservation(@AuthenticationPrincipal User user,Model model) {
+        List<Entry> entries = entryService.findAllByUserIdAndStatus(user.getId(), 1);
+        List<Playground> playgrounds = playgroundService.findAll();
+        List<Integer> nums = new ArrayList<>();
+
+        playgrounds.forEach(p-> {
+            Integer temp = entryService.countByPlaygroundIdAndStatus(p.getId(), 1);
+            if(temp == null) {
+                nums.add(0);
+            } else {
+                nums.add(temp);
+            }
+        });
+        model.addAttribute("entries", entries);
+        model.addAttribute("playgrounds", playgrounds);
+        model.addAttribute("nums", nums);
+        model.addAttribute("site", "reservation");
         return "/user/reservation";
+    }
+
+    @DeleteMapping("/reservation")
+    public String reservation(long id) {
+        entryService.deleteByIdAndStatus(id,1);
+
+        return "redirect:/user/reservation";
     }
 
     @GetMapping("/list")
     public String list(@AuthenticationPrincipal User temp, Model model) {
-        List<Entry> entries = entryService.findAllByUserIdAndStatusEqual(temp.getId(), 3);
+        List<Entry> entries = entryService.findAllByUserIdAndStatus(temp.getId(), 3);
         List<Playground> playgrounds = new ArrayList<>();
         entries.forEach(e -> {
             long id = e.getPlaygroundId();
             playgrounds.add(playgroundService.findById(id).get());
         });
 
-        System.out.println(">>>" + entries);
-
         model.addAttribute("entries", entries);
         model.addAttribute("playgrounds", playgrounds);
-
+        model.addAttribute("site", "list");
         return "/user/list";
     }
 }

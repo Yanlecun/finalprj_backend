@@ -1,13 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
-    <th:block th:replace="fragments/commonHead :: header"></th:block>
-
-    <style>
-
-    </style>
+    <th:block th:replace="fragments/commonHead :: header"/>
 </head>
 
 <body id="page-top">
@@ -23,75 +18,29 @@
         <!-- Main Content -->
         <div id="content">
 
-            <div th:replace="fragments/topbar :: topbar"/>
+            <div th:replace="fragments/topbar :: topbar"></div>
+
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
                 <!-- Page Heading -->
                 <div class="mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">놀이터 예약 현황</h1>
+                    <h1 class="h3 mt-5 text-gray-800"></h1>
+
                 </div>
-
-                <div>
-                    <table class="table table-striped re">
-                        <thead>
-                        <tr class="d-flex">
-                            <th scope="col" class="col-1 text-center">순번</th>
-                            <th scope="col" class="col-2">성명</th>
-                            <th scope="col" class="col-3">동물등록번호</th>
-                            <th scope="col" class="col-3">예약시간</th>
-                            <th scope="col" class="col-3"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <th:block th:if="${!users.empty}">
-                            <th:block th:each="user: ${users}">
-                                <tr class="d-flex">
-                                    <th scope="row" class="col-1 text-center align-self-center"
-                                        th:text="${userStat.index+1}">index
-                                    </th>
-                                    <td scope="col" class="col-2 align-self-center" th:text="${user.name}">사용자명</td>
-                                    <td scope="col" class="col-3 align-self-center" th:text="${user.dogNum}">동물등록번호</td>
-                                    <td scope="col" class="col-3 align-self-center" th:text="${#temporals.format(user.updatedAt,'yyyy-MM-dd HH-mm-ss')}">
-                                    </td>
-                                    <td scope="col" class="col-3">
-                                        <form th:method="put" th:action="@{/manager/reservation}" style="all:unset">
-                                            <button type="submit" class="btn btn-primary btn-sm" data-toggle="modal">
-                                                <input name="userId" th:value="${user.id}" hidden>
-                                                입장 <i class="far fa-fw fa-check-circle"></i>
-                                            </button>
-
-                                        </form>
-                                        <form th:method="delete" th:action="@{/manager/reservation}" style="all:unset">
-                                            <button type="submit" class="btn btn-primary btn-sm ml-4" data-toggle="modal">
-                                                <input name="userId" th:value="${user.id}" hidden>
-                                                예약삭제 <i class="fas fa-fw fa-ban"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </th:block>
-                        </th:block>
-                        <th:block th:unless="${!users.empty}">
-                            <tr class="d-flex">
-                                <th scope="row" class="col-12 text-center align-self-center">예약신청이 없어요
-                                </th>
-                            </tr>
-                        </th:block>
-                        </tbody>
-                    </table>
+                <div class="row justify-content-center align-items-center mb-4">
+                    <section th:if="${entries.isEmpty()}" class="col-4">
+                        <h4>예약한 놀이터가 없습니다.</h4>
+                    </section>
+                    <section th:unless="${entries.isEmpty()}"
+                             th:replace="fragments/user/resReservationSection :: reservationSection"/>
                 </div>
             </div>
 
-
         </div>
         <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer th:replace="fragments/footer"/>
-        <!-- End of Footer -->
-
+        <footer th:replace="fragments/footer"></footer>
     </div>
     <!-- End of Content Wrapper -->
 
@@ -105,6 +54,7 @@
 
 
 <script th:replace="fragments/core-js :: core-js"></script>
+
 
 </body>
 

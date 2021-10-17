@@ -23,7 +23,7 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
     @Query("delete from Entry where status = :status and playgroundId = :playgroundId and userId = :userId")
     @Transactional
     @Modifying(clearAutomatically = true)
-    void deleteByUserIdStatusEqual(long userId, long playgroundId, int status);
+    void deleteByUserIdAndPlaygroundIdAndStatus(long userId, long playgroundId, int status);
 
     @Query("select e from Entry as e where e.status = :status and e.playgroundId = :playgroundId and e.userId = :userId")
     Optional<Entry> findEntryWhereUserPlaygroundStatus(long userId, long playgroundId, int status);
@@ -39,4 +39,13 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
     void saveNative(long userId, long playgroundId, int status, LocalDateTime updatedAt);
 
     List<Entry> findAllByUserIdAndStatus(Long id, int status);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    void deleteByIdAndStatus(long entryId, int i);
+
+    List<Entry> findAllByStatusOrderByPlaygroundId(long i);
+
+    int countByPlaygroundIdAndStatus(long pgId, int i);
 }
+

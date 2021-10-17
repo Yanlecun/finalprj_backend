@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface PlaygroundRepository extends JpaRepository<Playground, Long> {
     Optional<Playground> findPlaygroundByPgName(String pgName);
+
 }

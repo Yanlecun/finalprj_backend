@@ -28,7 +28,7 @@ public class EntryService {
     @Transactional
     public void deleteUserIdStatusEquals(long userId, long playgroundId, int status) {
         try {
-            entryRepository.deleteByUserIdStatusEqual(userId, playgroundId, status);
+            entryRepository.deleteByUserIdAndPlaygroundIdAndStatus(userId, playgroundId, status);
         } catch (Exception e) {
             System.out.println("아직 없음");
         }
@@ -49,7 +49,15 @@ public class EntryService {
 
     }
 
-    public List<Entry> findAllByUserIdAndStatusEqual(Long id, int status) {
+    public List<Entry> findAllByUserIdAndStatus(Long id, int status) {
         return entryRepository.findAllByUserIdAndStatus(id, status);
+    }
+
+    public void deleteByIdAndStatus(long entryId, int i) {
+        entryRepository.deleteByIdAndStatus(entryId, i);
+    }
+
+    public Integer countByPlaygroundIdAndStatus(long pgId, int i) {
+        return entryRepository.countByPlaygroundIdAndStatus(pgId, i);
     }
 }
