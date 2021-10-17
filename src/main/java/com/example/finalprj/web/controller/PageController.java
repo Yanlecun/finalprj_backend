@@ -1,16 +1,13 @@
 package com.example.finalprj.web.controller;
 
 
-import com.example.finalprj.db.domain.Authority;
-import com.example.finalprj.db.domain.Entry;
-import com.example.finalprj.db.domain.Playground;
-import com.example.finalprj.db.domain.User;
+import com.example.finalprj.db.domain.*;
 import com.example.finalprj.db.repository.PlaygroundRepository;
 import com.example.finalprj.db.service.EntryService;
+import com.example.finalprj.db.service.FaqService;
 import com.example.finalprj.db.service.PlaygroundService;
 import com.example.finalprj.db.service.UserService;
 import com.example.finalprj.web.controller.vo.UserSignUpForm;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,11 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.json.JsonArray;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,6 +34,7 @@ public class PageController {
     private final UserService userService;
     private final PlaygroundRepository playgroundRepository;
     private final EntryService entryService;
+    private final FaqService faqService;
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
@@ -54,7 +49,7 @@ public class PageController {
             if (user.getAuthorities().contains(Authority.ADMIN_AUTHORITY)) {
                 return "redirect:/admin";
             } else if (user.getAuthorities().contains(Authority.MANAGER_AUTHORITY)) {
-                Long id =  user.getPlayground().getId();
+                Long id = user.getPlayground().getId();
                 return String.format("redirect:/main/") + id; // 각각 관리하는 페이지로 이동
             } else {
                 return "redirect:/main";
@@ -68,7 +63,7 @@ public class PageController {
 
     @GetMapping("/signup")
     public String signUp(@RequestParam String site, Model model) {
-        if(site.equals("manager")) {
+        if (site.equals("manager")) {
             List<Playground> pg = playgroundService.getPlaygroundList();
             model.addAttribute("pgList", pg);
         }
@@ -84,7 +79,7 @@ public class PageController {
                 .password(passwordEncoder.encode(form.getPassword()))
                 .enabled(true)
                 .build();
-        if(site.equals("manager")) {
+        if (site.equals("manager")) {
             userService.findPlaygroundByPgName(form.getPgName()).ifPresent(pg -> {
                 user.setPlayground(pg);
                 User saved = userService.save(user);
@@ -109,22 +104,24 @@ public class PageController {
     @GetMapping("/main")
     public String mainPage(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("site", "main");
+        List<Faq> faqs = faqService.findAll();
 
-        if(user.getPlayground() != null) {
+        if (user.getPlayground() != null) {
             long playgroundId = user.getPlayground().getId();
             return "redirect:/main/" + playgroundId;
         }
 
+        model.addAttribute("faqs", faqs);
         model.addAttribute("url", "main");
         model.addAttribute("data", playgroundService.json());
         return "main";
     }
 
     @GetMapping("/main/{id}")
-    public String mainPage(@AuthenticationPrincipal User user,@PathVariable(name="id") long playgroundId, Model model) {
-        Playground playground = playgroundService.findById(playgroundId).get() ;
-        
-        if(user.getAuthorities().contains(Authority.ADMIN_AUTHORITY)) { // 관리자페이지
+    public String mainPage(@AuthenticationPrincipal User user, @PathVariable(name = "id") long playgroundId, Model model) {
+        Playground playground = playgroundService.findById(playgroundId).get();
+
+        if (user.getAuthorities().contains(Authority.ADMIN_AUTHORITY)) { // 관리자페이지
             user.setPlayground(playground);
             userService.save(user);
         }
@@ -138,7 +135,6 @@ public class PageController {
         model.addAttribute("id", playgroundId);
         return "main";
     }
-    
 
 
     @GetMapping("/access-denied")
