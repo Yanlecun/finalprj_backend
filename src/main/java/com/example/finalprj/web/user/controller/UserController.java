@@ -22,19 +22,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService ;
+    private final UserService userService;
     private final EntryService entryService;
     private final PlaygroundService playgroundService;
 
     @GetMapping("/reservation")
-    public String reservation(@AuthenticationPrincipal User user,Model model) {
+    public String reservation(@AuthenticationPrincipal User user, Model model) {
         List<Entry> entries = entryService.findAllByUserIdAndStatus(user.getId(), 1);
         List<Playground> playgrounds = playgroundService.findAll();
         List<Integer> nums = new ArrayList<>();
 
-        playgrounds.forEach(p-> {
+        playgrounds.forEach(p -> {
             Integer temp = entryService.countByPlaygroundIdAndStatus(p.getId(), 1);
-            if(temp == null) {
+            if (temp == null) {
                 nums.add(0);
             } else {
                 nums.add(temp);
@@ -49,7 +49,7 @@ public class UserController {
 
     @DeleteMapping("/reservation")
     public String reservation(long id) {
-        entryService.deleteByIdAndStatus(id,1);
+        entryService.deleteByIdAndStatus(id, 1);
 
         return "redirect:/user/reservation";
     }

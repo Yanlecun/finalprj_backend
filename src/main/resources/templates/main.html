@@ -4,24 +4,6 @@
 <head>
     <th:block th:replace="fragments/commonHead :: header"/>
 
-    <style>
-        .text-red {
-            color: darkred;
-        }
-
-        .border-left-red {
-            border-left: 4px solid darkred;
-        }
-
-        .text-purple {
-            color: rebeccapurple;
-        }
-
-        .border-left-purle {
-            border-left: 4px solid rebeccapurple;
-        }
-    </style>
-
 </head>
 
 <body id="page-top">
@@ -45,7 +27,7 @@
                     <div th:replace="fragments/mainIndex :: mainIndex"/>
                 </th:block>
                 <th:block th:unless="${id}">
-                    <h1>ds</h1>
+                    <div th:replace="fragments/user/userMain :: userMain"/>
                 </th:block>
             </div>
             <!-- /.container-fluid -->
@@ -67,16 +49,6 @@
 
 <script th:replace="fragments/core-js :: core-js"></script>
 
-<!--<script>-->
-
-<!--    var container = document.getElementById('map');-->
-<!--    var options = {-->
-<!--        center: new kakao.maps.LatLng(33.450701, 126.570667),-->
-<!--        level: 3-->
-<!--    };-->
-
-<!--    var map = new kakao.maps.Map(container, options);-->
-<!--</script>-->
 
 
 

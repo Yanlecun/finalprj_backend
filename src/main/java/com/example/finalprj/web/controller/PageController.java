@@ -10,6 +10,7 @@ import com.example.finalprj.db.service.EntryService;
 import com.example.finalprj.db.service.PlaygroundService;
 import com.example.finalprj.db.service.UserService;
 import com.example.finalprj.web.controller.vo.UserSignUpForm;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.json.JsonArray;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.text.html.Option;
 import java.util.List;
@@ -106,14 +108,15 @@ public class PageController {
 
     @GetMapping("/main")
     public String mainPage(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("site", "main");
+
         if(user.getPlayground() != null) {
             long playgroundId = user.getPlayground().getId();
-            model.addAttribute("site", "main");
             return "redirect:/main/" + playgroundId;
         }
 
         model.addAttribute("url", "main");
-
+        model.addAttribute("data", playgroundService.json());
         return "main";
     }
 
@@ -135,6 +138,8 @@ public class PageController {
         model.addAttribute("id", playgroundId);
         return "main";
     }
+    
+
 
     @GetMapping("/access-denied")
     public String accessDenied() {
