@@ -42,21 +42,21 @@ public class UserController {
         model.addAttribute("playgrounds", playgrounds);
         model.addAttribute("nums", nums);
         model.addAttribute("site", "reservation");
-        return "/user/reservation";
+        return "user/reservation.html";
     }
 
     @PostMapping("/reservation")
     public String reservation(@AuthenticationPrincipal User user, @RequestParam long playgroundId) {
         entryService.save(user.getId(), playgroundId, 1);
 
-        return "redirect:/main/"+playgroundId;
+        return "redirect:/main/" + playgroundId;
     }
 
     @DeleteMapping("/reservation")
     public String reservation(long id, Integer playgroundId) {
         entryService.deleteByIdAndStatus(id, 1);
-        if(playgroundId != null) {
-            return "redirect:/main/"+playgroundId;
+        if (playgroundId != null) {
+            return "redirect:/main/" + playgroundId;
         }
 
         return "redirect:/user/reservation";
@@ -74,6 +74,6 @@ public class UserController {
         model.addAttribute("entries", entries);
         model.addAttribute("playgrounds", playgrounds);
         model.addAttribute("site", "list");
-        return "/user/list";
+        return "user/list.html";
     }
 }

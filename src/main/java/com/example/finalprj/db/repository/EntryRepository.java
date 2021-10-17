@@ -54,5 +54,9 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
     void saveByUserIdAndPlaygroundIdAndStatus(long userId, long playgroundId, int status);
 
     Optional<Entry> findByUserIdAndPlaygroundIdAndStatus(long id, long playgroundId, int i);
+
+
+    @Query("select e.userId from Entry e where e.id = ?1")
+    Long findUserIdById(long entryId);
 }
 

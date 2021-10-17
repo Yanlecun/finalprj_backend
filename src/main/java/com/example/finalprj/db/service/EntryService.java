@@ -69,4 +69,8 @@ public class EntryService {
     public Optional<Entry> findByUserIdAndPlaygroundIdAndStatus(long id, long playgroundId, int i) {
         return entryRepository.findByUserIdAndPlaygroundIdAndStatus(id, playgroundId, i);
     }
+
+    public Long findUserIdById(long entryId) {
+        return entryRepository.findUserIdById(entryId);
+    }
 }

@@ -4,7 +4,10 @@ import com.example.finalprj.api.dao.PhotoDao;
 import com.example.finalprj.api.dao.TrashDao;
 import com.example.finalprj.api.dto.Photo;
 import com.example.finalprj.api.dto.Trash;
+import com.example.finalprj.db.domain.User;
+import com.example.finalprj.db.service.EntryService;
 import com.example.finalprj.db.service.PlaygroundService;
+import com.example.finalprj.db.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,8 @@ import java.sql.SQLException;
 @RequestMapping("/api")
 public class ApiController {
     private final PlaygroundService playgroundService;
+    private final EntryService entryService;
+    private final UserService userService;
 
     @PostMapping("/photo")
     public void insert(@RequestBody Photo photo) {
@@ -67,4 +72,15 @@ public class ApiController {
     }
 
 
+    @GetMapping("/reservation/get")
+    public User reservation(String reservationNumber) {
+        long entryId = Long.valueOf(reservationNumber);
+        Long userId = entryService.findUserIdById(entryId);
+        System.out.println(userId);
+        if(userId == null) {
+            return new User();
+        }
+        User user = userService.findById(userId).orElse(null);
+        return user;
+    }
 }
