@@ -141,6 +141,15 @@ public class PageController {
         return "main";
     }
 
+    @GetMapping("/search")
+    public String search(String search) {
+        Playground playground = playgroundService.findByPgName(search).orElse(null);
+        if(playground == null) {
+            return "noSearchResult";
+        }
+
+        return "redirect:/main/"+ playground.getId();
+    }
 
     @GetMapping("/access-denied")
     public String accessDenied() {

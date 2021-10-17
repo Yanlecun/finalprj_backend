@@ -189,4 +189,8 @@ public class PlaygroundService {
     public Optional<Playground> findById(long id) {
         return playgroundRepository.findById(id);
     }
+
+    public Optional<Playground> findByPgName(String search) {
+        return playgroundRepository.findPlaygroundByPgName(search);
+    }
 }
