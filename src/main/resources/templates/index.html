@@ -1,26 +1,78 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charSet="UTF-8">
+    <title>Test</title>
+    <link rel="stylesheet" href="/index.css">
+    <div class="cursor" tabindex="0"></div>
+    <style>
+        /* 기본 색상 변수에 담기 */
+        html {
+            --color-texta: #1d1d1d;
+            --color-textb: #fff;
+        }
+        /* 시스템 커서 안 보이게 숨기기 */
+        body {
+            cursor: none;
+        }
+        /* 커스텀 커서 스타일 정의해주기 */
+        .cursor {
+            width: 3rem;
+            height: 3rem;
+            border: 2px solid var(--color-texta);
+            border-radius: 50%;
+            position: absolute;
+            z-index: 1000;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            transition-property: background, transform;
+            transform-origin: 100% 100%;
+            backdrop-filter: sepia(20%);
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
-
-<div class="container center-contents">
-    <div class="center-contents">
-        <h1 class="title display-5 text-black" style="text-align: center"> 메인 페이지 </h1>
-    </div>
-    <div class="links">
-
-        <div class="link center-contents" style="display: flex; justify-content: center">
-            <a class="btn btn-outline-secondary" href="/login">
-                로그인
-            </a>
+<main>
+    <div class="dog">
+        <div class="dog-body">
+            <div class="dog-tail">
+                <div class="dog-tail">
+                    <div class="dog-tail">
+                        <div class="dog-tail">
+                            <div class="dog-tail">
+                                <div class="dog-tail">
+                                    <div class="dog-tail">
+                                        <div class="dog-tail"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
+        <div class="dog-torso"></div>
+        <div class="dog-head">
+            <div class="dog-ears">
+                <div class="dog-ear"></div>
+                <div class="dog-ear"></div>
+            </div>
+            <div class="dog-eyes">
+                <div class="dog-eye"></div>
+                <div class="dog-eye"></div>
+            </div>
+            <div class="dog-muzzle">
+                <div class="dog-tongue"></div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="ball" tabindex="0"></div>
+</main>
+<script>
+
+</script>
+
 </body>
 </html>
