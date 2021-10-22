@@ -50,11 +50,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-java8time
     implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.4.RELEASE'
 
-    // https://mvnrepository.com/artifact/com.github.warmuuh/libsass-maven-plugin
-    implementation group: 'com.github.warmuuh', name: 'libsass-maven-plugin', version: '0.2.10-libsass_3.5.3'
-
-
-
 }
 
 test {

@@ -3,6 +3,7 @@ package com.example.finalprj.web.config;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -73,7 +76,15 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         if(savedRequest != null) {
             String redirectUrl = savedRequest.getRedirectUrl();
-            if(redirectUrl != null && !redirectUrl.startsWith("/login")) {
+            String regex = "/vendor/\\w+";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(redirectUrl);
+            boolean isVendor = matcher.find();
+
+            if(isVendor) {
+                return "/login";
+            }
+            else if(redirectUrl != null && !redirectUrl.startsWith("/login")) {
                 return savedRequest.getRedirectUrl();
             }
         }
