@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <th:block th:replace="fragments/commonHead :: header"></th:block>
@@ -58,7 +58,8 @@
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 놀이터 이름
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${pg.pgName}">개판 오분전 공원</div>
+                                            <div class="h5 mb-0">
+                                                <a th:href="'/main/'+${pg.id}" class="font-weight-bold text-gray-800" th:text="${pg.pgName}+' (이동하기)'">개판 오분전 공원</a></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-map-marker-alt fa-2x text-gray-300"></i>
@@ -88,25 +89,25 @@
                         </div>
 
                         <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-4 mb-4">
-                            <div class="card border-left-purle shadow h-100 py-1">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-purple text-uppercase mb-1">
-                                                현재 이용자 수
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" >
-                                                <span class="text-purple">0 </span> / <span>30</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-users fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!--                        <div class="col-xl-3 col-md-4 mb-4">-->
+<!--                            <div class="card border-left-purle shadow h-100 py-1">-->
+<!--                                <div class="card-body">-->
+<!--                                    <div class="row no-gutters align-items-center">-->
+<!--                                        <div class="col mr-2">-->
+<!--                                            <div class="text-xs font-weight-bold text-purple text-uppercase mb-1">-->
+<!--                                                현재 이용자 수-->
+<!--                                            </div>-->
+<!--                                            <div class="h5 mb-0 font-weight-bold text-gray-800" >-->
+<!--                                                <span class="text-purple">0 </span> / <span>30</span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-auto">-->
+<!--                                            <i class="fas fa-users fa-2x text-gray-300"></i>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </th:block>
                 </div>
             </div>
