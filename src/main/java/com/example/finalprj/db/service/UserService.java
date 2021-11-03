@@ -6,9 +6,11 @@ import com.example.finalprj.db.domain.Authority;
 import com.example.finalprj.db.domain.User;
 import com.example.finalprj.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -54,5 +56,29 @@ public class UserService {
 
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+
+
+    public Long findIdByEmail(String email) {
+        System.out.println();
+        return userRepository.findIdByEmail(email);
+    }
+
+    public String getJson(User user) {
+        JSONObject json1 = new JSONObject();
+        ArrayList<JSONObject> array = new ArrayList<>();
+
+        JSONObject json = new JSONObject();
+        json.put("createdAt", user.getCreatedAt().toString());
+        json.put("updatedAt", user.getUpdatedAt().toString());
+        json.put("id", user.getId());
+        json.put("name", user.getName());
+        json.put("email", user.getEmail());
+        json.put("dog_num", user.getDogNum());
+
+        array.add(json);
+        json1.put("data", array);
+
+        return json1.toString();
     }
 }

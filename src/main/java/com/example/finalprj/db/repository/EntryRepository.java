@@ -58,5 +58,8 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
 
     @Query("select e.userId from Entry e where e.id = ?1")
     Long findUserIdById(long entryId);
+
+    //@Query("select e from Entry e where e.id = ?1 and e.status = 1")
+    Optional<Entry> findByUserIdAndStatus(Long userId, int i);
 }
 

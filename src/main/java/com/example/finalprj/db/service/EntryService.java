@@ -73,4 +73,9 @@ public class EntryService {
     public Long findUserIdById(long entryId) {
         return entryRepository.findUserIdById(entryId);
     }
+
+
+    public Optional<Entry> findByUserIdAndStatus(Long userId, int i) {
+        return entryRepository.findByUserIdAndStatus(userId, i);
+    }
 }

@@ -53,7 +53,7 @@
                                     </th>
                                     <td scope="col" class="col-2 align-self-center" th:text="${user.name}">사용자명</td>
                                     <td scope="col" class="col-3 align-self-center" th:text="${user.dogNum}">동물등록번호</td>
-                                    <td scope="col" class="col-3 align-self-center" th:text="${#temporals.format(user.updatedAt,'yyyy-MM-dd HH-mm-ss')}">
+                                    <td scope="col" class="col-3 align-self-center" th:text="${#temporals.format(user.updatedAt,'yyyy-MM-dd HH:mm:ss')}">
                                     </td>
                                     <td scope="col" class="col-3">
                                         <form th:method="put" th:action="@{/manager/reservation}" style="all:unset">
