@@ -1,8 +1,10 @@
 package com.example.finalprj.web.user.controller;
 
 import com.example.finalprj.db.domain.Entry;
+import com.example.finalprj.db.domain.Photo;
 import com.example.finalprj.db.domain.User;
 import com.example.finalprj.db.service.EntryService;
+import com.example.finalprj.db.service.PhotoService;
 import com.example.finalprj.db.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +22,7 @@ public class ManagerController {
 
     private final UserService userService;
     private final EntryService entryService;
+    private final PhotoService photoService;
 
     @GetMapping("/usage")
     public String usage(@AuthenticationPrincipal User user, Model model) {
@@ -78,6 +81,25 @@ public class ManagerController {
         entryService.deleteUserIdStatusEquals(userId, playgroundId, 1); // status가 1인 userid 찾아서 지우기
 
         return "redirect:/manager/reservation";
+    }
+
+    //////////////////////사진/////////////////////////////////
+    @GetMapping("/images")
+    public String images(@AuthenticationPrincipal User user, Model model) {
+        List<Photo> images = photoService.getPhotos();
+
+        model.addAttribute("images", images);
+        model.addAttribute("site", "images");
+        model.addAttribute("url", "manager");
+
+        return "images";
+    }
+
+    @DeleteMapping("/images")
+    public String images(Long id) {
+        photoService.deleteById(id);
+
+        return "redirect:/manager/images";
     }
 
     //////////////////////////////////////////////////////////
