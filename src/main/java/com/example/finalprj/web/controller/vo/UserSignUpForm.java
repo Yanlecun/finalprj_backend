@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class UserSignUpForm {
 
     private String pgName;
+    private String birth;
     private String dogNum;
     private String name;
     private String email;

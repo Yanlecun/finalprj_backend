@@ -35,7 +35,7 @@ public class PhotoDao {
         ) {
             while(rs.next()) {
                 Photo dto = new Photo();
-                dto.setId(rs.getString("id"));
+                //dto.setId(rs.getString("id"));
                 dto.setFileName(rs.getString("file_name"));
                 dto.setUrl(rs.getString("url"));
 
@@ -48,14 +48,14 @@ public class PhotoDao {
     }
 
     public void photoInsert(Photo dto) {
-        String SQL="insert into photo(id,file_name, url)"+" values(?, ?, ?)";
+        String SQL="insert into photo(file_name, url)"+" values(?, ?)";
         try(
                 Connection conn = dbConn();
                 PreparedStatement pstmt = conn.prepareStatement(SQL);
         ){
-            pstmt.setString(1, dto.getId());
-            pstmt.setString(2, dto.getFileName());
-            pstmt.setString(3, dto.getUrl());
+            //pstmt.setString(1, dto.getId());
+            pstmt.setString(1, dto.getFileName());
+            pstmt.setString(2, dto.getUrl());
 
             pstmt.executeUpdate();
         }catch(Exception e){
@@ -94,7 +94,7 @@ public class PhotoDao {
         if(counter >= 0) {
             for(Photo photo: list) {
                 JSONObject json2 = new JSONObject();
-                json2.put("id", photo.getId());
+                //json2.put("id", photo.getId());
                 json2.put("url", photo.getUrl());
                 json2.put("file_name", photo.getFileName());
 

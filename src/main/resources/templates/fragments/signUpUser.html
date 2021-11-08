@@ -1,4 +1,5 @@
-<div th:fragment="signUpUser">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="signUpUser(error)">
     <h4 class="mb-3 text-center">유저 회원 가입</h4>
     <form class="validation-form" novalidate method="post" action="/signup?site=user">
         <div class="row">
@@ -32,9 +33,14 @@
                 <input class="form-control" name="dogNum" required>
                 <div class="invalid-feedback"> 동물 등록 번호를 입력해주세요.</div>
             </div>
-<!--            <div class="col-md-2 ml-1" role="button" data-toggle="modal" data-target="#searchModal">-->
-<!--                <i class="fa fa-search"></i>-->
-<!--            </div>-->
+
+            <div class="col-md-4 mb-3">사용자 생년월일
+                <input class="form-control" name="birth" required>
+                <div class="invalid-feedback" > 생년월일을 입력 해주세요</div>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show id-password-alert" id="error_alert" role="alert" placeholder="YYMMDD" >
+                <strong> 동물등록번호</strong> 혹은 <strong>생년월일</strong>을 정확히 입력해주세요
+            </div>
         </div>
         <hr class="mb-4">
         <button class="btn btn-primary btn-lg btn-block" type="submit">가입 완료</button>

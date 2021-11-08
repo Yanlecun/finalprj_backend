@@ -1,15 +1,26 @@
 package com.example.finalprj.db.service;
 
+import com.example.finalprj.db.domain.Dog;
 import com.example.finalprj.db.domain.Playground;
 import com.example.finalprj.db.repository.PlaygroundRepository;
 import com.example.finalprj.db.domain.Authority;
 import com.example.finalprj.db.domain.User;
 import com.example.finalprj.db.repository.UserRepository;
+import com.example.finalprj.db.service.data.Body;
+import com.example.finalprj.db.service.data.Item;
+import com.example.finalprj.db.service.data.Response;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +32,45 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final PlaygroundRepository playgroundRepository;
+
+    public Dog get(String url) {  // ResponseEntity<String> get
+        RestTemplate restTemplate = new RestTemplate() ;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(URI.create(url),
+                HttpMethod.GET, entity, String.class);
+
+        String xml = response.getBody();
+        Body xmlBody = parser(xml).getBody();
+        if(xmlBody != null) {
+        Item item = xmlBody.item;
+        return Dog.builder()
+                .dogNm(item.dogNm)
+                .dogRegNo(item.dogRegNo)
+                .kindNm(item.kindNm)
+                .sexNm(item.sexNm)
+                .build();
+        }
+
+        return null;
+    }
+
+    public Response parser(String xml) {
+        ObjectMapper xmlMapper = new XmlMapper();
+        Response response = null;
+        try {
+            response = xmlMapper.readValue(xml, Response.class);
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
 
     public User save(User user) {
         return userRepository.save(user);
@@ -75,10 +125,14 @@ public class UserService {
         json.put("name", user.getName());
         json.put("email", user.getEmail());
         json.put("dog_num", user.getDogNum());
+        json.put("dogNm", user.getDog().dogNm);
+        json.put("kindNm", user.getDog().kindNm);
+        json.put("sexNm", user.getDog().sexNm);
 
         array.add(json);
         json1.put("data", array);
 
         return json1.toString();
     }
+
 }

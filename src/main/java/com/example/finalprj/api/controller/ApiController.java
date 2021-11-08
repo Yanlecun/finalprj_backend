@@ -4,8 +4,10 @@ import com.example.finalprj.api.dao.PhotoDao;
 import com.example.finalprj.api.dao.TrashDao;
 import com.example.finalprj.api.dto.Photo;
 import com.example.finalprj.api.dto.Trash;
+import com.example.finalprj.db.domain.Dog;
 import com.example.finalprj.db.domain.Entry;
 import com.example.finalprj.db.domain.User;
+import com.example.finalprj.db.service.DogService;
 import com.example.finalprj.db.service.EntryService;
 import com.example.finalprj.db.service.PlaygroundService;
 import com.example.finalprj.db.service.UserService;
@@ -25,7 +27,7 @@ public class ApiController {
     private final EntryService entryService;
     private final UserService userService;
 
-    @PutMapping("/photo")
+    @PostMapping("/photo")
     public void insert(@RequestBody Photo photo) {
         PhotoDao photoDao = new PhotoDao();
         photoDao.photoInsert(photo);
@@ -80,6 +82,7 @@ public class ApiController {
             return userService.getJson(new User());
         }
         User user = userService.findById(userId).orElse(null);
+        entryService.entryUser(user.getId(),1);
         return userService.getJson(user);
     }
 

@@ -34,6 +34,10 @@ public class User extends BaseEntity implements UserDetails {
     @ToString.Exclude
     private Playground playground;
 
+    @OneToOne
+    @ToString.Exclude
+    private Dog dog;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(foreignKey = @ForeignKey(name = "userId"))  // id같은데
     private Set<Authority> authorities;

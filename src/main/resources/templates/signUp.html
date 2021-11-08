@@ -41,7 +41,7 @@
                     <th:block th:replace="fragments/signUpManager :: signUpManager"></th:block>
                 </div>
                 <div th:unless="${site} == 'manager'" >
-                    <th:block th:replace="fragments/signUpUser :: signUpUser" />
+                    <th:block th:replace="fragments/signUpUser :: signUpUser(${error})" />
                 </div>
             </div>
         </div>

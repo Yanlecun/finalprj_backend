@@ -3,13 +3,11 @@ package com.example.finalprj.web.controller;
 
 import com.example.finalprj.db.domain.*;
 import com.example.finalprj.db.repository.PlaygroundRepository;
-import com.example.finalprj.db.service.EntryService;
-import com.example.finalprj.db.service.FaqService;
-import com.example.finalprj.db.service.PlaygroundService;
-import com.example.finalprj.db.service.UserService;
+import com.example.finalprj.db.service.*;
 import com.example.finalprj.web.controller.vo.UserSignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -35,6 +33,7 @@ public class PageController {
     private final PlaygroundRepository playgroundRepository;
     private final EntryService entryService;
     private final FaqService faqService;
+    private final DogService dogService;
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
@@ -45,6 +44,8 @@ public class PageController {
 
     @GetMapping("/login")
     public String login(@AuthenticationPrincipal User user, @RequestParam(value = "error", defaultValue = "false") Boolean error, HttpServletRequest request, Model model) {
+
+
         if (user != null && user.isEnabled()) {
             if (user.getAuthorities().contains(Authority.ADMIN_AUTHORITY)) {
                 return "redirect:/admin";
@@ -62,14 +63,16 @@ public class PageController {
     }
 
     @GetMapping("/signup")
-    public String signUp(@RequestParam String site, Model model) {
+    public String signUp(@RequestParam String site, @RequestParam(value = "error", defaultValue = "false") Boolean error, Model model) {
         if (site.equals("manager")) {
             List<Playground> pg = playgroundService.getPlaygroundList();
             model.addAttribute("pgList", pg);
         }
+        model.addAttribute("error", error);
         model.addAttribute("site", site);
         return "signUp";
     }
+
 
     @PostMapping(value = "/signup", consumes = {"application/x-www-form-urlencoded;charset=UTF-8", MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public String signUp(@RequestParam String site, UserSignUpForm form, Model model) {
@@ -91,7 +94,19 @@ public class PageController {
                 userService.addAuthority(saved.getId(), Authority.ROLE_MANAGER);
             });
         } else {
-            user.setDogNum(form.getDogNum());
+            String dogNum = form.getDogNum();
+            String url = "http://openapi.animal.go.kr/openapi/service/rest/animalInfoSrvc/animalInfo?serviceKey=7kqT2Nea62adPrDr0V1FXr0WoXDiLx4zaGcMwyBf70HABw69mhV0ysvLGtZM6EQvWun91SrKFIoN1lV6zH1lFA%3D%3D&";
+            String info = "dog_reg_no=%s&rfid_cd=%s&owner_birth=%s";
+
+            info = String.format(info, dogNum, dogNum, form.getBirth());
+            url += info;
+            if(userService.get(url)== null) {
+                return "redirect:/signup?site=user&error=true";
+            }
+            Dog dog = userService.get(url);
+            dogService.save(dog);
+            user.setDogNum(dogNum);
+            user.setDog(dog);
             User saved = userService.save(user);
 
             userService.addAuthority(saved.getId(), Authority.ROLE_USER);

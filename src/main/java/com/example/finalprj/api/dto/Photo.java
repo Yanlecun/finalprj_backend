@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Photo {
-    private String id;
     private String url;
     private String fileName;
 }
